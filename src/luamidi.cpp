@@ -251,7 +251,7 @@ static int MidiOut_noteOn(lua_State *L)
 	message[1] = luaL_checkint(L, 2);
 	message[2] = 127;
 	if(lua_isnumber(L, 3))
-		message[2] = lua_tonumber(L, 3);
+		message[2] = (unsigned char)lua_tonumber(L, 3);
 	if(lua_isnumber(L, 4))
 	{
 		int channel = luaL_checkint(L, 4);
@@ -345,7 +345,7 @@ static int luamidi_noteOn(lua_State *L)
 	message[1] = luaL_checkint(L, 2);
 	message[2] = 127;
 	if(lua_isnumber(L, 3))
-		message[2] = lua_tonumber(L, 3);
+		message[2] = (unsigned char)lua_tonumber(L, 3);
 	if(lua_isnumber(L, 4))
 	{
 		int channel = luaL_checkint(L, 4);
@@ -485,6 +485,22 @@ static int luamidi_enumerateinports (lua_State *L)
 	return 1;
 }
 
+static int luamidi_getInPortName(lua_State *L)
+{
+	int port = luaL_checkint(L, 1);
+	RtMidiIn* midi = getGenericInput();
+	lua_pushstring(L, midi->getPortName(port).c_str());
+	return 1;
+}
+
+static int luamidi_getOutPortName(lua_State *L)
+{
+	int port = luaL_checkint(L, 1);
+	RtMidiOut* midi = getGenericOutput();
+	lua_pushstring(L, midi->getPortName(port).c_str());
+	return 1;
+}
+
 //
 // Called when the module is cleaned up.
 //
@@ -541,6 +557,8 @@ static const struct luaL_reg luamidi_methods [] =
 	{"getinportcount",	luamidi_getinportcount},
 	{"enumerateoutports",	luamidi_enumerateoutports},
 	{"enumerateinports",	luamidi_enumerateinports},
+	{"getInPortName",	luamidi_getInPortName},
+	{"getOutPortName",	luamidi_getOutPortName},
 	{"openout",		luamidi_openout},
 	{"openin",		luamidi_openin},
 	{"noteOn",		luamidi_noteOn},
