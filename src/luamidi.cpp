@@ -485,6 +485,7 @@ static int luamidi_enumerateinports (lua_State *L)
 	return 1;
 }
 
+// takes in a port number and returns the port's name
 static int luamidi_getInPortName(lua_State *L)
 {
 	int port = luaL_checkint(L, 1);
@@ -493,6 +494,7 @@ static int luamidi_getInPortName(lua_State *L)
 	return 1;
 }
 
+// takes in a port number and returns the port's name
 static int luamidi_getOutPortName(lua_State *L)
 {
 	int port = luaL_checkint(L, 1);

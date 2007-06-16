@@ -3,6 +3,8 @@ require "luatimer"
 
 -- luamidi.base1(true)
 
+print(luamidi.getInPortName(1))
+
 print(luamidi)
 print(luamidi.getoutportcount())
 print()
