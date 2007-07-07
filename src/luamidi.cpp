@@ -490,7 +490,10 @@ static int luamidi_getInPortName(lua_State *L)
 {
 	int port = luaL_checkint(L, 1);
 	RtMidiIn* midi = getGenericInput();
-	lua_pushstring(L, midi->getPortName(port).c_str());
+	if(port < midi->getPortCount())
+		lua_pushstring(L, midi->getPortName(port).c_str());
+	else
+		lua_pushstring(L, "");
 	return 1;
 }
 
@@ -499,7 +502,10 @@ static int luamidi_getOutPortName(lua_State *L)
 {
 	int port = luaL_checkint(L, 1);
 	RtMidiOut* midi = getGenericOutput();
-	lua_pushstring(L, midi->getPortName(port).c_str());
+	if(port < midi->getPortCount())
+		lua_pushstring(L, midi->getPortName(port).c_str());
+	else
+		lua_pushstring(L, "");
 	return 1;
 }
 
